@@ -13,7 +13,7 @@ on:
       build_machine:
         description: "Select device board."
         required: false
-        default: "all"
+        default: "carrier"
         type: choice
         options:
           - e20c
@@ -36,7 +36,7 @@ on:
       linux_flavor:
         description: "Set the Linux flavor."
         required: false
-        default: "noble-rk-media"
+        default: "noble-mini"
         type: choice
         options:
           - trixie-mini
@@ -67,7 +67,7 @@ on:
       custom_boot:
         description: "Set the custom boot mode."
         required: false
-        default: "boot256-ext4root"
+        default: "boot384-ext4root"
         type: choice
         options:
           - boot256-ext4root
@@ -81,7 +81,7 @@ on:
       kernel_repo:
         description: "Set the kernel repository."
         required: false
-        default: "ophub/kernel"
+        default: "solarflows/ophub-kernel"
         type: choice
         options:
           - breakingbadboy/OpenWrt
@@ -177,7 +177,7 @@ jobs:
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Build Ubuntu [ ${{ inputs.linux_flavor }} ]
-        uses: unifreq/rk-ubuntu-build@main
+        uses: solarflows/rk-ubuntu-build@main
         if: ${{ steps.opt.outputs.status }} == 'success' && !cancelled()
         env:
           BUILD_TARGET: ${{ inputs.build_target }}
