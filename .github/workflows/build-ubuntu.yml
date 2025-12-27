@@ -177,7 +177,7 @@ jobs:
           echo "status=success" >> ${GITHUB_OUTPUT}
 
       - name: Build Ubuntu [ ${{ inputs.linux_flavor }} ]
-        uses: unifreq/rk-ubuntu-build@main
+        uses: solarflows/rk-ubuntu-build@main
         if: ${{ steps.opt.outputs.status }} == 'success' && !cancelled()
         env:
           BUILD_TARGET: ${{ inputs.build_target }}
