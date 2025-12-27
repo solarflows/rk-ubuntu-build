@@ -59,7 +59,7 @@ h66k                    :rk3568            :mainline
 h68k                    :rk3568            :mainline
 h69k                    :rk3568            :mainline
 h69k-max                :rk3568            :mainline
-carrier                 :rk3568            :stable
+carrier                 :rk3568            :mainline
 #-----------------------+------------------+---------------------
 zcube1-max              :rk3399-ml         :mainline
 #
@@ -399,9 +399,37 @@ make_rootfs() {
 make_image() {
     echo -e "${STEPS} Start building Ubuntu image..."
 
+    # 调试：显示完整的 CONFIG_MAP
+    echo -e "${INFO} CONFIG_MAP content:"
+    echo "${CONFIG_MAP}"
+    
+    # 调试：显示解析后的 CONFIG_MAP
+    echo -e "${INFO} Parsed CONFIG_MAP (without spaces):"
+    echo "${CONFIG_MAP}" | tr -d ' ' | grep -E "^[^#].*:"
+
     i="1"
     for machine_var in "${BUILD_UBUNTU_LIST[@]}"; do
-        {
+        {   
+
+            echo -e "${INFO} Processing device [${i}]: [ ${machine_var} ]"
+            
+            # 调试：显示尝试匹配的结果
+            echo -e "${INFO} Trying to match: '${machine_var}'"
+            match_line=$(echo "${CONFIG_MAP}" | tr -d ' ' | grep -E "^${machine_var}:.*")
+            echo -e "${INFO} Match line: [ ${match_line} ]"
+            
+            kernel_dir="$(echo "${CONFIG_MAP}" | tr -d ' ' | grep -E "^${machine_var}:.*" | cut -d: -f3)"
+            echo -e "${INFO} Extracted kernel_dir: [ ${kernel_dir} ]"
+            
+            if [[ -z "${kernel_dir}" ]]; then
+                echo -e "${ERROR} Failed to get the kernel directory for [ ${machine_var } ]"
+                echo -e "${ERROR} This might be due to:"
+                echo -e "${ERROR} 1. Device not found in CONFIG_MAP"
+                echo -e "${ERROR} 2. Format issue in CONFIG_MAP line"
+                echo -e "${ERROR} 3. Special characters in device name"
+                exit 1
+            fi
+
             # Distinguish between different Ubuntu and use different kernel
             if [[ " ${BUILD_UBUNTU_RK3588[@]} " =~ " ${machine_var} " ]]; then
                 build_kernel=(${RK3588_KERNEL[@]})
