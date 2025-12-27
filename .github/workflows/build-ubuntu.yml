@@ -31,6 +31,7 @@ on:
           - rock-5b
           - yixun-rs6pro
           - zcube1-max
+          - carrier
           - all
       linux_flavor:
         description: "Set the Linux flavor."
@@ -85,6 +86,7 @@ on:
         options:
           - breakingbadboy/OpenWrt
           - ophub/kernel
+          - solarflows/ophub-kernel
       ubuntu_kernel:
         description: "Select mainline kernel"
         required: false

@@ -59,6 +59,7 @@ h66k                    :rk3568            :mainline
 h68k                    :rk3568            :mainline
 h69k                    :rk3568            :mainline
 h69k-max                :rk3568            :mainline
+carrier                 :rk3568            :stable
 #-----------------------+------------------+---------------------
 zcube1-max              :rk3399-ml         :mainline
 #
@@ -87,7 +88,7 @@ FLIPPY_KERNEL=(${STABLE_KERNEL[@]})
 KERNEL_AUTO_LATEST_VALUE="true"
 
 # Set the default package source download repository
-SCRIPT_REPO_URL_VALUE="https://github.com/unifreq/rk-ubuntu-build"
+SCRIPT_REPO_URL_VALUE="https://github.com/solarflows/rk-ubuntu-build"
 SCRIPT_REPO_BRANCH_VALUE="main"
 # Set the working directory under /opt
 SELECT_PACKITPATH_VALUE="rk-ubuntu-build"
